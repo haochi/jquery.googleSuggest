@@ -1,6 +1,7 @@
 /**@license
 This file uses Google Suggest for jQuery plugin (licensed under GPLv3) by Haochi Chen ( http://ihaochi.com )
  */
+(function ($) {
 $.fn.googleSuggest = function(opts){
   opts = $.extend({service: 'web', secure: false}, opts);
 
@@ -10,9 +11,10 @@ $.fn.googleSuggest = function(opts){
     products: { client: 'products-cc', ds: 'sh' },
     news: { client: 'news-cc', ds: 'n' },
     images: { client: 'img', ds: 'i' },
-    web: { client: 'psy', ds: '' },
-    recipes: { client: 'psy', ds: 'r' }
-  }, service = services[opts.service];
+    web: { client: 'hp', ds: '' },
+    recipes: { client: 'hp', ds: 'r' }
+  }, service = services[opts.service], span = $('<span>');
+
 
   opts.source = function(request, response){
     $.ajax({
@@ -26,7 +28,7 @@ $.fn.googleSuggest = function(opts){
       },
       success: function(data) {
         response($.map(data[1], function(item){
-          return { value: $("<span>").html(item[0]).text() };
+          return { value: span.html(item[0]).text() };
         }));
       }
     });  
@@ -36,3 +38,4 @@ $.fn.googleSuggest = function(opts){
     $(this).autocomplete(opts);
   });
 }
+}(jQuery));
